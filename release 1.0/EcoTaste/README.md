@@ -295,11 +295,11 @@ my-react-app/
 |Колонка|Тип|Описание|
 |-|-|-|
 |`login`|VARCHAR / PRIMARY KEY или UNIQUE|Логин пользователя (номер телефона)|
-|`user\_name`|VARCHAR(255)|Имя пользователя|
+|`user_name`|VARCHAR(255)|Имя пользователя|
 |`passwd`|VARCHAR(255+)|Хеш пароля в формате `scrypt$salt$hash`|
-|`address\_delivery`|TEXT|Адрес доставки|
+|`address_delivery`|TEXT|Адрес доставки|
 |`comm`|TEXT|Комментарий пользователя|
-|`address\_shop`|TEXT|Адрес точки самовывоза|
+|`address_shop`|TEXT|Адрес точки самовывоза|
 |`isAdmin`|BOOLEAN|Флаг администратора|
 
 ### Таблица `goods`
@@ -321,20 +321,20 @@ my-react-app/
 |Колонка|Тип|Описание|
 |-|-|-|
 |`login`|VARCHAR|Логин пользователя|
-|`goods\_cart`|TEXT|Список id товаров через `;`|
+|`goods_cart`|TEXT|Список id товаров через `;`|
 |`quantity`|TEXT|Количества товаров через `;`|
 
 ### Таблица `orders`
 
 |Колонка|Тип|Описание|
 |-|-|-|
-|`order\_num`|SERIAL PRIMARY KEY|Номер заказа|
+|`order_num`|SERIAL PRIMARY KEY|Номер заказа|
 |`login`|VARCHAR|Логин пользователя|
-|`order\_list`|TEXT|Список id товаров через `;`|
+|`order_list`|TEXT|Список id товаров через `;`|
 |`quantity`|TEXT|Количества товаров через `;`|
 |`address`|TEXT|Адрес доставки или самовывоза|
 |`status`|VARCHAR|Статус заказа|
-|`order\_date`|DATE|Дата оформления|
+|`order_date`|DATE|Дата оформления|
 
 ## 10\. Логика корзины и оформления заказа
 
@@ -343,7 +343,7 @@ my-react-app/
 В текущей реализации корзина хранится в БД не как отдельные строки по товарам, а как две строки с разделителем `;`:
 
 ```text
-goods\_cart = "1081050;1321354;5465416"
+goods_cart = "1081050;1321354;5465416"
 quantity   = "2;1;3"
 ```
 
