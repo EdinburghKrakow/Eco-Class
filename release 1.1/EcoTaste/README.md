@@ -319,7 +319,7 @@ my-react-app/
 |-|-|-|
 |`login`|VARCHAR(12)|Логин пользователя (номер телефона)|
 |`user_name`|VARCHAR(255)|Имя пользователя|
-|`passwd`|VARCHAR(255+)|Хеш пароля в формате `scrypt$salt$hash`|
+|`passwd`|VARCHAR(255)|Хеш пароля в формате `scrypt$salt$hash`|
 |`address_delivery`|VARCHAR(255)|Адрес доставки|
 |`comm`|VARCHAR(255)|Комментарий пользователя|
 |`address_shop`|VARCHAR(255)|Адрес точки самовывоза|
