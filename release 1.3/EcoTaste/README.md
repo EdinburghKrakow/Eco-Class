@@ -339,6 +339,7 @@ http://localhost:3001/api
 | POST | `/auth/login` | Вход | `{ login, passwd }` | `{ message, token, login, user_name, isAdmin }` |
 | GET | `/auth/profile/:login` | Получить профиль | — | `{ login, user_name, address_delivery, comm, address_shop, isAdmin }` |
 | PUT | `/auth/profile` | Сохранить профиль | `{ login, address_delivery, comm, address_shop }` | `{ message }` |
+| POST | `/auth/reset-password` | Сброс пароля | `{ login, newPassword }` | `{ message }` |
 
 ---
 
@@ -356,7 +357,8 @@ http://localhost:3001/api
 | POST | `/orders/checkout` | Оформить заказ | `{ login, deliveryType }` | `{ message, order_num }` |
 | GET | `/admin/orders` | Активные заказы для админа | — | `{ orders: [...] }` |
 | PATCH | `/admin/orders/:orderNum/status` | Обновить статус заказа | `{ status }` | `{ message }` |
-| GET | `/admin/analytics` | Получить аналитику продаж | — | объект аналитики |
+| GET | `/admin/analytics` | Получить глобальную аналитику продаж | — | объект аналитики |
+| GET | `/seller/analytics` | Получить аналитику продавца | — | объект аналитики |
 
 ---
 
@@ -373,6 +375,23 @@ http://localhost:3001/api
 | GET | `/cart/:login` | Получить корзину пользователя | — | `{ login, goods_cart, quantity, items }` |
 | POST | `/cart/add` | Добавить товар в корзину | `{ login, goodsId }` | `{ message, items }` |
 | PATCH | `/cart/update` | Изменить количество товара | `{ login, goodsId, delta }` | `{ message, items }` |
+| DELETE | `/cart/clear/:login` | Очистить корзину | — | `{ message }` |
+
+### 8.5 Адреса пользователя
+
+Базовый префикс:
+
+```text
+/api/auth
+```
+
+| Метод | Эндпоинт | Описание | Тело запроса | Ответ |
+|---|---|---|---|---|
+| GET | `/auth/addresses/:login` | Получить список адресов пользователя | — | `{ addresses: [...] }` |
+| POST | `/auth/addresses` | Добавить адрес | `{ login, address, type }` | `{ message }` |
+| PUT | `/auth/addresses/:addressesId` | Изменить адрес | `{ address, type }` | `{ message }` |
+| DELETE | `/auth/addresses/:addressesId` | Изменить адрес | — | `{ message }` |
+| PUT | `/auth/select-address` | Выбрать адрес | `{ login, addressesId }` | `{ message }` |
 
 ## 9\. Структура базы данных (по текущей реализации)
 
@@ -401,8 +420,8 @@ http://localhost:3001/api
 |`price`|FLOAT|Цена|
 |`quantity`|INTEGER|Остаток на складе|
 |`isnew`|BOOLEAN|Признак новинки|
-|`seller`|TEXT|Признак новинки|
-|`category`|VARCHAR(255)|Признак новинки|
+|`seller`|TEXT|Название магазина|
+|`category`|VARCHAR(255)|Категория товара|
 
 ### Таблица `user_cart`
 
@@ -423,6 +442,14 @@ http://localhost:3001/api
 |`address`|VARCHAR(255)|Адрес доставки или самовывоза|
 |`status`|VARCHAR(30)|Статус заказа|
 |`order_date`|DATE|Дата оформления|
+
+### Таблица `user_addresses`
+
+|Колонка|Тип|Описание|
+|-|-|-|
+|`address_id`|INTEGER GENERATED ALWAYS AS IDENTITY|Уникальный идентификатор адреса (первичный ключ)|
+|`login`|VARCHAR(12)|Логин пользователя|
+|`full_address`|VARCHAR(255)|Полный адрес доставки|
 
 ## 10\. Логика корзины и оформления заказа
 
